@@ -1,3 +1,5 @@
+package ll.kor.java.ssg.util;
+
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
