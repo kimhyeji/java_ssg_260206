@@ -12,12 +12,12 @@ public class MemberController extends Controller {
     private List<Member> members;
     private Scanner sc;
     private String cmd;
-    private Member loginedmember;
+    private Member loginedMember;
 
     public MemberController(Scanner sc) {
         members = new ArrayList<>();
         this.sc = sc;
-        loginedmember = null;
+        loginedMember = null;
     }
 
     public void doAction(String cmd, String actionMethodName) {
@@ -29,6 +29,9 @@ public class MemberController extends Controller {
                 break;
             case "login":
                 doLogin();
+                break;
+            case "logout":
+                doLogout();
                 break;
             default:
                 IO.println("존재하지 않는 명령어 입니다.");
@@ -44,7 +47,26 @@ public class MemberController extends Controller {
         members.add(new Member(3, Util.getNowDateStr(), "user2", "user2", "홍길순"));
     }
 
+    private boolean isLogined() {
+        return loginedMember != null;
+    }
+
+    private void doLogout() {
+        if ( !isLogined() ) {
+            IO.println("로그인 상태가 아닙니다.");
+            return;
+        }
+
+        loginedMember = null;
+        IO.println("로그아웃 되었습니다.");
+    }
+
     private void doLogin() {
+        if ( isLogined() ) {
+            IO.println("이미 로그인 되어 있습니다.");
+            return;
+        }
+
         IO.print("로그인 아이디 : ");
         String loginId = sc.nextLine();
         IO.print("로그인 비번 : ");
@@ -62,7 +84,7 @@ public class MemberController extends Controller {
             return;
         }
 
-        loginedmember = member;
+        loginedMember = member;
         IO.println(String.format("로그인 성공! %s님 환영합니다^^", member.name));
     }
 
