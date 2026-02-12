@@ -1,5 +1,6 @@
 package ll.kor.java.ssg.controller;
 
+import ll.kor.java.ssg.dto.Article;
 import ll.kor.java.ssg.dto.Member;
 import ll.kor.java.ssg.util.Util;
 
@@ -12,7 +13,6 @@ public class MemberController extends Controller {
     private Scanner sc;
     private String cmd;
     private Member loginedmember;
-
 
     public MemberController(Scanner sc) {
         members = new ArrayList<>();
@@ -36,6 +36,14 @@ public class MemberController extends Controller {
         }
     }
 
+    public void makeTestData() {
+        IO.println("테스트를 위한 회원 데이터를 생성합니다.");
+
+        members.add(new Member(1, Util.getNowDateStr(), "admin", "admin", "관리자"));
+        members.add(new Member(2, Util.getNowDateStr(), "user1", "user1", "홍길동"));
+        members.add(new Member(3, Util.getNowDateStr(), "user2", "user2", "홍길순"));
+    }
+
     private void doLogin() {
         IO.print("로그인 아이디 : ");
         String loginId = sc.nextLine();
@@ -55,7 +63,7 @@ public class MemberController extends Controller {
         }
 
         loginedmember = member;
-        IO.println(String.format("로그인 성공! %s님 환영합니다^^", loginId));
+        IO.println(String.format("로그인 성공! %s님 환영합니다^^", member.name));
     }
 
     private void doJoin() {
@@ -93,10 +101,13 @@ public class MemberController extends Controller {
             break;
         }
 
-        Member member = new Member(id, regDate, loginId, loginPw);
+        IO.print("로그인 비번 : ");
+        String name = sc.nextLine();
+
+        Member member = new Member(id, regDate, loginId, loginPw, name);
         members.add(member);
 
-        IO.println(String.format("%s님 회원가입이 완료되었습니다.", loginId));
+        IO.println(String.format("%s님 회원가입이 완료되었습니다.", name));
     }
 
     private int getMemberIndexByLoginId(String loginId) {
